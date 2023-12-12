@@ -1,6 +1,29 @@
 {
   "extends": "expo/tsconfig.base",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+, "app.config.js", "app.config.js"  ],
   "compilerOptions": {
-    "strict": true
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "strict": true,
+    /* all properties declared below may be not neccesary due to stric:true property. Needs to be checked */
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-native",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "sourceMap": true,
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
+    "skipLibCheck": true,
+    "resolveJsonModule": true    
   }
 }
