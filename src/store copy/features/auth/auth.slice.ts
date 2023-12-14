@@ -1,7 +1,12 @@
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { AuthActionTypes, AuthState } from './types';
+
+import {
+  FIREBASE_API_AUTH_SIGN_IN_URL,
+  FIREBASE_API_AUTH_SIGN_UP_URL,
+  FIREBASE_AUTH_BASE_URL,
+} from '@/constants/firebase';
 
 const initialState: AuthState = {
   user: null,
@@ -16,11 +21,20 @@ export const signIn = createAsyncThunk(
   async (payload: { email: string; password: string }, thunkApi) => {
     try {
       // TODO: Aquí es donde llamamos al servicio Login para la Autenticación / Api / Base de datos
-      const response = await auth().signInWithEmailAndPassword(payload.email, payload.password);
+      const response = await fetch(`${FIREBASE_AUTH_BASE_URL}${FIREBASE_API_AUTH_SIGN_IN_URL}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
-      
-
-      return response.user;
+      const data = await response.json();
+      if (data.error) {
+        console.log(data.error);
+        return thunkApi.rejectWithValue(data.error.message);
+      }
+      return data;
     } catch (error: unknown) {
       return thunkApi.rejectWithValue({ error });
     }
@@ -32,10 +46,19 @@ export const signUp = createAsyncThunk(
   async (payload: { email: string; password: string }, thunkApi) => {
     try {
       // TODO: Aquí es donde llamamos al servicio de registro para la Autenticación / Api / Base de datos
+      const response = await fetch(`${FIREBASE_AUTH_BASE_URL}${FIREBASE_API_AUTH_SIGN_UP_URL}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
-      const response = await auth().createUserWithEmailAndPassword(payload.email, payload.password);
+      const data = await response.json();
 
-      return response.user;
+      if (data.error) return thunkApi.rejectWithValue(data.error.message);
+
+      return data;
     } catch (error: unknown) {
       return thunkApi.rejectWithValue({ error });
     }
@@ -46,7 +69,15 @@ export const signOut = createAsyncThunk(`auth/${AuthActionTypes.SIGN_OUT}`, asyn
   try {
     // TODO: Aquí es donde llamamos al servicio Login para la Autenticación / Api / Base de datos
 
-    await auth().signOut();
+    /* const response = await fetch('http://localhost:3000/api/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        })
+  
+        const data = await response.json() */
     return thunkApi.fulfillWithValue(null);
   } catch (error: unknown) {
     return thunkApi.rejectWithValue({ error });

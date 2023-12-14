@@ -49,13 +49,13 @@ export default function SignInScreen(_props: Props) {
   const { formState, onChange, isFormValid } = useForm(initialState);
 
   const onBlur = ({ name }: onBlurProps): void => {
-    console.warn({ event: 'onBlur', name });
+    //  console.warn({ event: 'onBlur', name });
   };
   const onHandleChange = ({ text, name }: onChangeProps): void => {
     onChange({ text, name });
   };
   const onFocus = ({ name }: onFocusProps): void => {
-    console.warn({ event: 'onFocus', name });
+    // console.warn({ event: 'onFocus', name });
   };
 
   const onHandleSignIn = () => {

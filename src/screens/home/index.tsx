@@ -11,7 +11,7 @@ const HomeScreen = (): JSX.Element => {
     dispatch(signOut());
   };
 
-  console.warn({ user });
+  // console.warn({ user });
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

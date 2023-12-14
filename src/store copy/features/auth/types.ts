@@ -1,5 +1,3 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth';
-
 export enum AuthActionTypes {
   SIGN_IN = 'SIGN_IN',
   SIGN_UP = 'SIGN_UP',
@@ -7,10 +5,17 @@ export enum AuthActionTypes {
   RESTORE_TOKEN = 'RESTORE_TOKEN',
 }
 
-export type AuthUser = FirebaseAuthTypes.User | null;
+export type AuthUser = {
+  email: string;
+  expireIn: string;
+  idToken: string;
+  kind: string;
+  localId: string;
+  refreshToken: string;
+};
 
 export type AuthState = {
-  user: AuthUser;
+  user: AuthUser | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   isError: boolean;
